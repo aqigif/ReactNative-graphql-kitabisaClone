@@ -6,6 +6,8 @@ import Beneficiaries from './../components/beneficiaryList';
 import { useLazyQuery, useQuery } from '@apollo/react-hooks';
 import { GET_CATEGORIES, GET_BENEFICIARIES_BY_CATEGORIES_ID, GET_BENEFICIARIES } from '../queries';
 import AsyncStorage from '@react-native-community/async-storage';
+import { Toast } from 'popup-ui';
+import AntIcon from 'react-native-vector-icons/AntDesign'
 
 const BeneficiariesScreen = (props) => {
   const [categorySelected, setCategory] = useState('');
@@ -72,23 +74,21 @@ const BeneficiariesScreen = (props) => {
       loadBeneficaries();
     }
   }
-  const onChooseBeneficiary = async() => {
+  const onChooseBeneficiary = async(id) => {
     const { navigation } = props;
     const auth = await AsyncStorage.getItem('@token');
     if (auth) {
-      navigation.push('Donation', {
-        beneficiaryId: beneficiary
+      navigation.push('Donating', {
+        beneficiaryId: id
       });
     } else {
       navigation.push('Login');
-      ToastAndroid.showWithGravityAndOffset(
-        "Sorry, You have to login first before donating",
-        ToastAndroid.LONG,
-        ToastAndroid.BOTTOM,
-        25,
-        50
-      );
-      
+      Toast.show({
+        title: 'Warning',
+        text: 'Sorry, You have to login first before donating',
+        color: '#f39c12',
+        icon: <AntIcon name='exclamation' size={25} color='#fff' />
+      })
     }
     setBeneficiary('');
   }
@@ -115,18 +115,10 @@ const BeneficiariesScreen = (props) => {
           }
           onRefresh={onRefresh}
           numColumns={2}
+          onChooseBeneficiary={onChooseBeneficiary}
           showsVerticalScrollIndicator={false}
           keyExtractor={item => item.id}
           beneficiary={beneficiary}
-          setBeneficiary={selectBeneficiary}
-        />
-      </View>
-      <View>
-        <Button
-          title="Choose Beneficiary"
-          color="purple"
-          disabled={!beneficiary}
-          onPress={onChooseBeneficiary}
         />
       </View>
     </View>

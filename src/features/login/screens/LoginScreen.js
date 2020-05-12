@@ -13,6 +13,7 @@ import { useMutation } from '@apollo/react-hooks';
 import { LOGIN } from '../queries';
 import { AuthContext } from '../../../navigations/navigations';
 import { Root, Toast } from 'popup-ui'
+import AntIcon from 'react-native-vector-icons/AntDesign'
 
 const LoginScreen = ({ navigation }) => {
   const [loginFunc, result] = useMutation(LOGIN,{
@@ -51,7 +52,8 @@ const LoginScreen = ({ navigation }) => {
         title: 'Login success',
         text: 'Welcome to Mejik Foundation',
         color: '#2ecc71',
-        timing: 2000
+        timing: 2000,
+        icon: <AntIcon name='check' size={25} color='#fff' />
       })
       await AsyncStorage.setItem('@token', data?.login?.token);
       await AsyncStorage.setItem('@id', data?.login?.user?.id);
@@ -66,7 +68,8 @@ const LoginScreen = ({ navigation }) => {
       Toast.show({
         title: 'Login Error',
         text: 'Email or Password was incorrect',
-        color: '#e74c3c'
+        color: '#e74c3c',
+        icon: <AntIcon name='close' size={25} color='#fff' />
       })
     }
   }

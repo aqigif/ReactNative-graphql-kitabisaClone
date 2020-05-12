@@ -8,8 +8,8 @@ const DonationStack = createStackNavigator();
 function DonationStackScreen() {
   return (
     <DonationStack.Navigator>
-      <DonationStack.Screen name="Beneficiaries" component={BeneficiariesScreen} />
-      <DonationStack.Screen name="Donation" component={DonateScreen} />
+      <DonationStack.Screen name="Donation" component={BeneficiariesScreen} />
+      <DonationStack.Screen name="Donating" component={DonateScreen} />
     </DonationStack.Navigator>
   );
 }

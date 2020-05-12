@@ -30,6 +30,16 @@ const HistoryScreen = (props) => {
       variables: {id: id}
     });
   }
+  const delimiterNumber = (value) => {
+    const number = value.toString()
+    if (number) {
+      let splitNumber = number.split('.');
+      let valueNumber = splitNumber[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+      valueNumber = `${valueNumber}${splitNumber[1] ? ','+splitNumber[1] : ''}`;
+      return valueNumber;
+    }
+    return value;
+  }
   if (loading && !data) {
     return (
       <View style={{marginTop: 40}}>
@@ -38,39 +48,48 @@ const HistoryScreen = (props) => {
     )
   } else {
   return (
+  <View>
+  <View style={{paddingHorizontal: 20, paddingVertical: 2, backgroundColor: '#d7d7d7', justifyContent:'space-between', flexDirection: 'row'}}>
+    <Text style={{ fontSize: 12, color: 'grey'}}>{moment().format('MMMM YYYY')}</Text>
+    <Text style={{ fontSize: 12, color: 'grey'}}>{data?.transactionsConnection?.total} Donasi</Text>
+  </View>
   <FlatList
-    data={data?.transactions}
+    data={data?.transactionsConnection?.data}
     refreshing={loading}
     onRefresh={getHistory}
-    style={{flex: 1}}
     renderItem={({item}) =>{
       const date = new Date(item?.createdAt);
-      const dateFormat = moment(date).format('MMMM DD YYYY');
+      const dateFormat = moment(date).fromNow();
       return(
       <TouchableHighlight underlayColor="#d7d7d7" onPress={() => props.navigation.push('History Detail',{trxId: item?.id})}>
         <View style={{
-          paddingTop: 10,
-          paddingBottom: 5,
+          paddingTop: 15,
+          paddingBottom: 10,
           flexDirection: 'row',
-          paddingHorizontal: 15,
-          justifyContent: 'space-between'
+          paddingHorizontal: 20,
         }}>
-        {/* <FA5icons name="donate" size={40} color='purple' /> */}
+        <View style={{width: 65,height:65, backgroundColor: 'purple',padding: 10, borderRadius: 10, alignItems: 'center'}}>
+          <FA5icons name="donate" size={40} color='white' />
+        </View>
         <View style={{
-          }}>
-          <Text style={{fontSize: 16}}>{item?.beneficiary?.firstName} {item?.beneficiary?.lastName}, {item?.beneficiary?.categories[0]?.name}</Text>
-          <Text style={{fontSize: 12}}>#{item?.id}</Text>
-          <Text style={{color: 'grey', fontSize: 12, marginTop: 20}}>{dateFormat}</Text>
+          flex: 1,
+          paddingHorizontal: 10
+        }}>
+          <Text style={{fontSize: 16, fontWeight: 'bold'}}>{item?.beneficiary?.firstName} {item?.beneficiary?.lastName}, {item?.beneficiary?.categories[0]?.name}</Text>
+          <Text style={{color: 'grey', fontSize: 12, marginTop: 10}}>{dateFormat} • Rp {delimiterNumber(item?.total)}</Text>
         </View>
         <View style={{
         }}>
-          <Text style={{color: 'grey', fontSize: 16}}>Rp {item?.total}</Text>
+          <View style={{backgroundColor: '#00AA13', padding: 5, paddingHorizontal: 10, borderRadius: 20}}>
+            <Text style={{fontSize: 12, fontWeight: 'bold', color: '#fff'}}>Success</Text>
+          </View>
         </View>
         </View>
       </TouchableHighlight>)}
     }
     keyExtractor={item=> item.id}
   />
+  </View>
   )}
 };
 

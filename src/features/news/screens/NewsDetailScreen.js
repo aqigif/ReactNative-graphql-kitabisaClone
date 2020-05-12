@@ -7,7 +7,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { ActivityIndicator } from 'react-native-paper';
 
 const NewsDetailScreen = (props) => {
-  const { id } = props?.route?.params;
+  const { id, indexImage } = props?.route?.params;
   const [
     loadNews, {
       loading,
@@ -47,7 +47,7 @@ const NewsDetailScreen = (props) => {
       <View style={{marginHorizontal: 15, marginVertical: 0}}>
         <Image
           style={{ height: 300, width: '100%', borderRadius: 4 }}
-          source={{ uri: data?.article?.imageUrl || 'https://awsimages.detik.net.id/community/media/visual/2020/05/06/29efd4cb-e8dd-4a01-b6bd-4f559a08ae6c_169.jpeg?w=700&q=90' }}
+          source={{ uri: data?.article?.imageUrl || `https://picsum.photos/${indexImage}00` }}
         />
       </View>
       <Text style={{marginHorizontal: 15, marginTop: 10, alignSelf:'stretch'}}>{data?.article?.description}</Text>

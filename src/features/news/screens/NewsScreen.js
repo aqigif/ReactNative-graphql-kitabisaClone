@@ -36,45 +36,24 @@ const NewsScreen = (props) => {
         refreshing={loading}
         onRefresh={loadNews}
         style={{ flex: 1 }}
-        renderItem={({ item }) => {
+        renderItem={({ item, index }) => {
           const date = new Date(item?.createdAt);
           const dateFormat = moment(date).fromNow();
           return (
-            <TouchableOpacity activeOpacity={0.8} onPress={() => props.navigation.push('News Detail',item)}>
-            <Card style={{
-              marginTop: 10,
-              marginBottom: 5,
-              marginHorizontal: 15
-            }}>
-              <Card.Cover source={{ uri: item?.imageUrl || 'https://picsum.photos/700' }} />
-              <Card.Title title={item?.title} subtitle={item?.description} />
-            </Card>
-              {/* <View style={{
-                paddingHorizontal: 10,
+            <TouchableOpacity activeOpacity={0.8} onPress={() => props.navigation.push('News Detail',{
+              id: item?.id,
+              indexImage: index
+            })}>
+            <Card 
+              elevation={10}
+              style={{
                 marginTop: 10,
                 marginBottom: 5,
-                flexDirection: 'row',
-                height: 100
+                marginHorizontal: 15
               }}>
-                <View style={{
-                  flex: 1
-                }}>
-                  <Text style={{
-                    fontSize: 20,
-                    fontWeight: 'bold',
-                  }}
-                  numberOfLines={2} ellipsizeMode='tail' >{item?.title}</Text>
-                  <Text numberOfLines={1} ellipsizeMode='tail' style={{color:'grey'}}>{item?.description}</Text>
-                  <Text numberOfLines={1} ellipsizeMode='tail' style={{color:'grey'}}>{dateFormat}</Text>
-                </View>
-                <View style={{
-                  flex: 1
-                }}>
-                  <Image
-                    style={{ height: '100%', width: '100%', borderRadius: 4 }}
-                    source={{ uri: item?.imageUrl || 'https://awsimages.detik.net.id/community/media/visual/2020/05/06/29efd4cb-e8dd-4a01-b6bd-4f559a08ae6c_169.jpeg?w=700&q=90' }} />
-                </View>
-              </View> */}
+              <Card.Cover source={{ uri: item?.imageUrl || `https://picsum.photos/${index}00` }} />
+              <Card.Title title={item?.title} subtitle={item?.description} />
+            </Card>
             </TouchableOpacity>)
         }
         }

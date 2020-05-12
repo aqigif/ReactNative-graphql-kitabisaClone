@@ -166,11 +166,11 @@ const DonateScreen = (props) => {
           setSelected={setTimeline}
         />
         </View>
-        <Text>Payment Proof</Text>
         <TouchableOpacity onPress={openFile}>
           <View style={{
             ...donationStyles.imagePickerZone,
             height: 280,
+            marginTop: 20
           }}>
           {filePreview ? 
             <Image
@@ -181,7 +181,7 @@ const DonateScreen = (props) => {
             />:
             <View style={{alignItems: 'center'}}>
               <FAicons name='upload' size={50} />
-              <Text style={{fontWeight: 'bold'}}>Choose File</Text>
+              <Text style={{fontWeight: 'bold'}}>Payment Proof</Text>
             </View>
           }
           </View>
@@ -203,7 +203,7 @@ const DonateScreen = (props) => {
         <Button
           onPress={onDonate}
           title={loadingTrx ? "Loading ..." : "Donate"}
-          color="purple"
+          color="green"
           disabled={!amountSelected || !timeline || loadingTrx || !file}
         />
       </View>

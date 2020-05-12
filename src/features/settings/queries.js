@@ -13,21 +13,24 @@ query getUserId($id: String!){
 
 export const GET_HISTORY_BY_ID = gql`
 query getHistory($id: String!){
-	transactions(where:{
+	transactionsConnection(where:{
     createdById:$id
   },
   orderBy: createdAt_DESC
   ){
-    id
     total
-    beneficiary{
-      firstName
-      lastName
-      categories{
-        name
+    data {
+      id
+      total
+      beneficiary{
+        firstName
+        lastName
+        categories{
+          name
+        }
       }
+      createdAt
     }
-    createdAt
   }
 }
 `;

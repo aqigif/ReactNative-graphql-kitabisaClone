@@ -24,7 +24,7 @@ const HistoryDetailScreen = (props) => {
   },
   []);
   const date = new Date(data?.transaction?.createdAt);
-  const dateFormat = moment(date).format('MMMM DD YYYY');
+  const dateFormat = moment(date).format('DD MMMM YYYY');
   return (
     <View style={donationStyles.container}>
       <ScrollView
@@ -40,45 +40,44 @@ const HistoryDetailScreen = (props) => {
             </View> */}
           {/* </View> */}
         </View>
-        <Text style={{fontWeight: 'bold'}}>Payment Proof</Text>
+        <Text style={{fontWeight: 'bold', fontSize: 20, alignSelf: 'center',}}>Donation Success</Text>
+        <Text style={{fontSize: 14, alignSelf: 'center', textAlign: 'center', marginTop: 10}}>Donation has been sent to {data?.transaction?.beneficiary?.firstName} {data?.transaction?.beneficiary?.lastName}, {data?.transaction?.beneficiary?.categories[0]?.name}</Text>
         <TouchableOpacity>
           <View style={{
             ...donationStyles.imagePickerZone,
-            height: 400,
+            backgroundColor: '#d7d7d7',
+            height: 430,
+            marginVertical: 10
           }}>
             <Image
-              style={{height: 380, width: 320, borderRadius: 4}}
+              style={{height: 360, width: 320, borderRadius: 4}}
               source={{
                 uri: data?.transaction?.paymentProof || 'https://storage.googleapis.com/support-forums-api/attachment/thread-18716086-17280445969701291926.jpg',
               }}
             />
+            <View style={{
+              textAlign:'center',
+              alignItems: 'center',
+              marginTop: 5
+            }}>
+                <Text style={{fontWeight: 'bold', color: '#000'}}>{data?.transaction?.createdAt ? dateFormat : ''}</Text>
+                <Text style={{fontWeight: 'bold', color: '#000'}}>#{data?.transaction?.id}</Text>
+            </View>
           </View>
         </TouchableOpacity>
-        <View style={donationStyles.donationWrapper}>
-          <Text>Date</Text>
-          <Text>{data?.transaction?.createdAt ? dateFormat : ''}</Text>
-        </View>
-        <View style={donationStyles.donationWrapper}>
-          <Text>Transaction ID</Text>
-          <Text>{data?.transaction?.id}</Text>
-        </View>
-        <View style={donationStyles.donationWrapper}>
-          <Text>To</Text>
-          <Text>{data?.transaction?.beneficiary?.firstName} {data?.transaction?.beneficiary?.lastName}, {data?.transaction?.beneficiary?.categories[0]?.name}</Text>
-        </View>
       </ScrollView>
       <View>
         <View style={donationStyles.donationWrapper}>
-          <Text>Amount</Text>
+          <Text></Text>
           <Text>Rp {data?.transaction?.amount}</Text>
         </View>
         <View style={donationStyles.donationWrapper}>
-          <Text>Timeline</Text>
+          <Text></Text>
           <Text>{data?.transaction?.timeline} Months</Text>
         </View>
         <View style={donationStyles.totalWrapper}>
-          <Text style={donationStyles.totalText}>Total</Text>
-          <Text style={donationStyles.totalText}>Rp {data?.transaction?.total}</Text>
+          <Text style={{...donationStyles.totalText, fontSize: 16}}>Total</Text>
+          <Text style={{...donationStyles.totalText, fontSize: 16}}>Rp {data?.transaction?.total}</Text>
         </View>
       </View>
     </View>
